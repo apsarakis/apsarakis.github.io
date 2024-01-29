@@ -11,6 +11,10 @@
  * Licensed under the MIT License.
  */
 
+/*! @azure/msal-browser v3.7.1 2024-01-23 */
+
+/*! @azure/msal-common v14.6.1 2024-01-23 */
+
 /**
  * @license React
  * react-dom.production.min.js
