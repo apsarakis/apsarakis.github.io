@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Office Add-in Authentication Prompt</title>
+  <script src="https://msal.js.microsoft.com/lib/2.4.0/msal.min.js"></script>
+</head>
+<body>
+  before script
+  <script>
+    const msalInstance = new MSAL.PublicClientApplication({
+      authority: "https://login.microsoftonline.com/your_tenant_id",
+      clientId: "2aedbe92-5dd4-48a7-95d8-9503965bff3a",
+    });
+
+    const acquireTokenSilent = async () => {
+      const cache = await msalInstance.getCache();
+      const accounts = await cache.getAccounts();
+      if (accounts.length === 0) {
+        // No accounts in cache, redirect the user to Azure AD for sign-in
+        const authCodeUrl = await msalInstance.acquireTokenRedirect({
+          scopes: ["openid", "profile", "email"],
+        });
+        window.location.href = authCodeUrl;
+      } else {
+        // Use the first account to acquire a token silently
+        const result = await msalInstance.acquireTokenSilent({
+          scopes: ["openid", "profile", "email"],
+          account: accounts[0],
+        });
+        if (result.accessToken) {
+          // Successfully acquired token silently
+          console.log("Acquired token silently:", result);
+          window.close(); // Close the authentication prompt dialog
+        } else {
+          // Silent renewal failed, redirect the user to Azure AD for sign-in
+          const authCodeUrl = await msalInstance.acquireTokenRedirect({
+            scopes: ["openid", "profile", "email"],
+          });
+          window.location.href = authCodeUrl;
+        }
+      }
+    };
+
+    acquireTokenSilent();
+  </script>
+</body>
+</html>

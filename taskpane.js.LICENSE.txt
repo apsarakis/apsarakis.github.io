@@ -11,9 +11,9 @@
  * Licensed under the MIT License.
  */
 
-/*! @azure/msal-browser v3.7.1 2024-01-23 */
+/*! @azure/msal-browser v3.5.0 2023-11-07 */
 
-/*! @azure/msal-common v14.6.1 2024-01-23 */
+/*! @azure/msal-common v14.4.0 2023-11-07 */
 
 /**
  * @license React
